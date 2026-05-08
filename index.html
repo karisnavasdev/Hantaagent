@@ -1015,58 +1015,6 @@
     </footer>
 
     <script src="./vendor/leaflet.js"></script>
-    <script>
-      window.__ENV_PROMISE = (async () => {
-        try {
-          const response = await fetch("./.env", { cache: "no-store" });
-          if (!response.ok) {
-            window.__ENV__ = {};
-            return window.__ENV__;
-          }
-
-          const rawEnv = await response.text();
-          const parsedEnv = {};
-          rawEnv.split(/\r?\n/).forEach((line) => {
-            const trimmedLine = line.trim();
-            if (!trimmedLine || trimmedLine.startsWith("#")) {
-              return;
-            }
-
-            const separatorIndex = trimmedLine.indexOf("=");
-            if (separatorIndex < 1) {
-              return;
-            }
-
-            const key = trimmedLine.slice(0, separatorIndex).trim();
-            const value = trimmedLine
-              .slice(separatorIndex + 1)
-              .trim()
-              .replace(/^['"]|['"]$/g, "");
-            if (key) {
-              parsedEnv[key] = value;
-            }
-          });
-
-          window.__ENV__ = parsedEnv;
-          if (parsedEnv.OPENAI_API_KEY && !window.OPENAI_API_KEY) {
-            window.OPENAI_API_KEY = parsedEnv.OPENAI_API_KEY;
-          }
-          if (parsedEnv.CHATGPT_API_KEY && !window.CHATGPT_API_KEY) {
-            window.CHATGPT_API_KEY = parsedEnv.CHATGPT_API_KEY;
-          }
-          if (parsedEnv.OPENAI_MODEL && !window.OPENAI_MODEL) {
-            window.OPENAI_MODEL = parsedEnv.OPENAI_MODEL;
-          }
-          if (parsedEnv.CHATGPT_MODEL && !window.CHATGPT_MODEL) {
-            window.CHATGPT_MODEL = parsedEnv.CHATGPT_MODEL;
-          }
-          return parsedEnv;
-        } catch {
-          window.__ENV__ = {};
-          return window.__ENV__;
-        }
-      })();
-    </script>
     <script src="./app.js"></script>
   </body>
 </html>

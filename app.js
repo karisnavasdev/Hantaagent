@@ -43,66 +43,22 @@ const chatMessages = document.getElementById("chat-messages");
 const chatSendButton = document.getElementById("chat-send-button");
 const chatStatus = document.getElementById("chat-status");
 
-const CHATGPT_API_URL = "https://api.openai.com/v1/responses";
-const CHATGPT_MODEL_CANDIDATES = ["gpt-4.1-mini", "gpt-4.1", "gpt-4o-mini", "gpt-4o"];
-const CHATGPT_API_KEY = "";
 const CHAT_MODEL_STORAGE_KEY = "hantavirus_chatgpt_model";
 const CHAT_REPLY_ANIMATION_STEP_MS = 14;
 const CHAT_REPLY_ANIMATION_CHUNK_SIZE = 2;
-const CHATBOT_SYSTEM_PROMPT =
-  "You are a concise public health assistant focused on hantavirus. Answer only hantavirus-related questions (symptoms, transmission, prevention, treatment, epidemiology, outbreaks, rodent control, travel advice). If the question is unrelated, politely ask the user to ask about hantavirus. Provide clear, practical information and include a short caution to seek professional medical care for urgent symptoms. Do not provide investment or token advice.";
+const CHAT_API_ENDPOINT = "/api/chat";
 
 let map;
 let geoJsonLayer;
 const chatConversation = [];
 const CHAT_THINKING_ID = "chat-thinking-indicator";
 
-function getEnvValue(...keys) {
-  const env = window.__ENV__ || {};
-  for (const key of keys) {
-    const value = (env[key] || "").trim();
-    if (value) {
-      return value;
-    }
-  }
-  return "";
-}
-
-function getChatApiKey() {
-  return (
-    getEnvValue("CHATGPT_API_KEY", "OPENAI_API_KEY") ||
-    window.CHATGPT_API_KEY ||
-    window.OPENAI_API_KEY ||
-    CHATGPT_API_KEY ||
-    ""
-  );
-}
-
 function getPreferredChatModel() {
-  const runtimeModel =
-    getEnvValue("CHATGPT_MODEL", "OPENAI_MODEL") || window.CHATGPT_MODEL || window.OPENAI_MODEL || "";
+  const runtimeModel = window.CHATGPT_MODEL || window.OPENAI_MODEL || "";
   const storedModel = window.sessionStorage
     ? window.sessionStorage.getItem(CHAT_MODEL_STORAGE_KEY) || ""
     : "";
   return (runtimeModel || storedModel).trim();
-}
-
-function getCandidateModels() {
-  const preferredModel = getPreferredChatModel();
-  if (!preferredModel) {
-    return CHATGPT_MODEL_CANDIDATES;
-  }
-  return [preferredModel, ...CHATGPT_MODEL_CANDIDATES.filter((model) => model !== preferredModel)];
-}
-
-function shouldTryNextModel(errorText) {
-  const lower = String(errorText || "").toLowerCase();
-  return (
-    lower.includes("does not have access to model") ||
-    lower.includes("model_not_found") ||
-    lower.includes("unsupported model") ||
-    lower.includes("not available")
-  );
 }
 
 function setChatStatus(text, statusType = "idle") {
@@ -218,97 +174,52 @@ function setChatLoadingState(isLoading) {
     return;
   }
 
-  setChatStatus(getChatApiKey() ? "armed" : "offline", getChatApiKey() ? "ready" : "idle");
-}
-
-function extractAssistantText(responseJson) {
-  if (!responseJson || !Array.isArray(responseJson.output)) {
-    return "";
-  }
-
-  const collectedParts = [];
-  responseJson.output.forEach((item) => {
-    if (!item || !Array.isArray(item.content)) {
-      return;
-    }
-    item.content.forEach((contentItem) => {
-      if (contentItem?.type === "output_text" && contentItem.text) {
-        collectedParts.push(contentItem.text);
-      }
-    });
-  });
-  return collectedParts.join("\n").trim();
+  setChatStatus("armed", "ready");
 }
 
 async function askHantavirusAssistant(userMessage) {
-  const apiKey = getChatApiKey();
-  if (!apiKey) {
-    setChatStatus("missing key", "error");
-    throw new Error("Missing API key. Set CHATGPT_API_KEY in .env before loading this page.");
+  const preferredModel = getPreferredChatModel();
+  const response = await fetch(CHAT_API_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      userMessage,
+      chatConversation,
+      preferredModel,
+    }),
+  });
+
+  let responseJson = {};
+  try {
+    responseJson = await response.json();
+  } catch {}
+
+  if (!response.ok) {
+    const errorMessage =
+      responseJson?.error || responseJson?.message || `Chat endpoint error (HTTP ${response.status})`;
+    throw new Error(errorMessage);
   }
 
-  const input = [
-    { role: "system", content: CHATBOT_SYSTEM_PROMPT },
-    ...chatConversation,
-    { role: "user", content: userMessage },
-  ];
-
-  const models = getCandidateModels();
-  let lastError = "Unable to reach ChatGPT API.";
-
-  for (const model of models) {
-    const response = await fetch(CHATGPT_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model,
-        input,
-        temperature: 0.4,
-        max_output_tokens: 350,
-      }),
-    });
-
-    if (!response.ok) {
-      let errorMessage = `ChatGPT API error (HTTP ${response.status})`;
-      try {
-        const errorJson = await response.json();
-        if (errorJson?.error?.message) {
-          errorMessage = errorJson.error.message;
-        }
-      } catch {}
-
-      lastError = errorMessage;
-      if (shouldTryNextModel(errorMessage)) {
-        continue;
-      }
-      throw new Error(errorMessage);
-    }
-
-    const responseJson = await response.json();
-    const assistantText = extractAssistantText(responseJson);
-    if (!assistantText) {
-      lastError = "No response text returned by ChatGPT API.";
-      continue;
-    }
-
-    if (window.sessionStorage) {
-      window.sessionStorage.setItem(CHAT_MODEL_STORAGE_KEY, model);
-    }
-
-    chatConversation.push({ role: "user", content: userMessage });
-    chatConversation.push({ role: "assistant", content: assistantText });
-    if (chatConversation.length > 12) {
-      chatConversation.splice(0, chatConversation.length - 12);
-    }
-
-    setChatStatus(`armed:${model}`, "ready");
-    return assistantText;
+  const assistantText = String(responseJson?.assistantText || "").trim();
+  if (!assistantText) {
+    throw new Error("No response text returned by chat endpoint.");
   }
 
-  throw new Error(lastError);
+  const model = String(responseJson?.model || "").trim();
+  if (model && window.sessionStorage) {
+    window.sessionStorage.setItem(CHAT_MODEL_STORAGE_KEY, model);
+  }
+
+  chatConversation.push({ role: "user", content: userMessage });
+  chatConversation.push({ role: "assistant", content: assistantText });
+  if (chatConversation.length > 12) {
+    chatConversation.splice(0, chatConversation.length - 12);
+  }
+
+  setChatStatus(model ? `armed:${model}` : "armed", "ready");
+  return assistantText;
 }
 
 function normalizeCountryName(countryName) {
@@ -614,12 +525,8 @@ if (chatForm && chatInput) {
 }
 
 async function initializeApp() {
-  try {
-    await Promise.resolve(window.__ENV_PROMISE);
-  } catch {}
-
   if (chatForm && chatInput) {
-    setChatStatus(getChatApiKey() ? "armed" : "offline", getChatApiKey() ? "ready" : "idle");
+    setChatStatus("armed", "ready");
   }
 
   loadOutbreakData();
