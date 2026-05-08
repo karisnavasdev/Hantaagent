@@ -57,12 +57,30 @@ let geoJsonLayer;
 const chatConversation = [];
 const CHAT_THINKING_ID = "chat-thinking-indicator";
 
+function getEnvValue(...keys) {
+  const env = window.__ENV__ || {};
+  for (const key of keys) {
+    const value = (env[key] || "").trim();
+    if (value) {
+      return value;
+    }
+  }
+  return "";
+}
+
 function getChatApiKey() {
-  return window.CHATGPT_API_KEY || window.OPENAI_API_KEY || CHATGPT_API_KEY || "";
+  return (
+    getEnvValue("CHATGPT_API_KEY", "OPENAI_API_KEY") ||
+    window.CHATGPT_API_KEY ||
+    window.OPENAI_API_KEY ||
+    CHATGPT_API_KEY ||
+    ""
+  );
 }
 
 function getPreferredChatModel() {
-  const runtimeModel = window.CHATGPT_MODEL || window.OPENAI_MODEL || "";
+  const runtimeModel =
+    getEnvValue("CHATGPT_MODEL", "OPENAI_MODEL") || window.CHATGPT_MODEL || window.OPENAI_MODEL || "";
   const storedModel = window.sessionStorage
     ? window.sessionStorage.getItem(CHAT_MODEL_STORAGE_KEY) || ""
     : "";
@@ -226,7 +244,7 @@ async function askHantavirusAssistant(userMessage) {
   const apiKey = getChatApiKey();
   if (!apiKey) {
     setChatStatus("missing key", "error");
-    throw new Error("Missing API key. Set window.CHATGPT_API_KEY before loading this page.");
+    throw new Error("Missing API key. Set CHATGPT_API_KEY in .env before loading this page.");
   }
 
   const input = [
