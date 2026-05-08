@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+   
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+<title>HANTAVIRUS | Global Threat Outbreak</title>
+
+<meta
+  name="description"
+  content="HANTA VIRUS ON ETH is an Ethereum memecoin inspired by the Hantavirus outbreak with live outbreak tracking, chart links, contract details, and biohazard blockchain culture."
+/>
+
+<meta
+  name="keywords"
+  content="HANTA VIRUS ON ETH, HANTA AGENT, Ethereum memecoin, Hantavirus token, outbreak memecoin, ETH token, biohazard crypto, virus token, ERC20 memecoin, crypto outbreak"
+/>
+
+<meta name="robots" content="index,follow,max-image-preview:large" />
+
+<meta property="og:type" content="website" />
+
+<meta
+  property="og:title"
+  content="HANTAVIRUS | Global Threat Outbreak"
+/>
+
+<meta
+  property="og:description"
+  content="HANTA VIRUS ON ETH is an Ethereum memecoin inspired by the Hantavirus outbreak with live outbreak tracking, chart access, and biohazard blockchain culture."
+/>
+
+<meta property="og:image" content="./favicon/og-image.jpg" />
+
+<meta property="og:site_name" content="HANTAVIRUS" />
+
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta
+  name="twitter:title"
+  content="HANTAVIRUS | Global Threat Outbreak"
+/>
+
+<meta
+  name="twitter:description"
+  content="HANTA VIRUS ON ETH — Ethereum memecoin inspired by the Hantavirus outbreak with live outbreak tracking and biohazard-themed crypto culture."
+/>
+
+<meta name="twitter:image" content="./favicon/og-image.jpg" />
+ 
+
+
+<meta name="twitter:image" content="./favicon/og-image.jpg" />
+    <link rel="icon" type="image/png" href="./favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./favicon/favicon.svg" />
+    <link rel="shortcut icon" href="./favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="./favicon/site.webmanifest" />
+    <script src="./vendor/tailwindcdn.js"></script>
+    <link
+      rel="stylesheet"
+      href="./vendor/leaflet.css"
+    />
+    <style>
+      body::before {
+        content: " ";
+        display: block;
+        position: fixed;
+        inset: 0;
+        background:
+          linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+          linear-gradient(
+            90deg,
+            rgba(255, 70, 70, 0.08),
+            rgba(255, 255, 255, 0.015),
+            rgba(255, 30, 30, 0.08)
+          );
+        z-index: 999;
+        background-size: 100% 2px, 3px 100%;
+        pointer-events: none;
+      }
+
+      .hazard-stripes {
+        background: repeating-linear-gradient(
+          45deg,
+          #0a0707,
+          #0a0707 10px,
+          #c31f17 10px,
+          #c31f17 20px
+        );
+      }
+
+      .hazard-stripes-red {
+        background: repeating-linear-gradient(
+          45deg,
+          #090606,
+          #090606 10px,
+          #ff3b30 10px,
+          #ff3b30 20px
+        );
+      }
+
+      .glitch-hover:hover {
+        animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+      }
+
+      @keyframes glitch {
+        0% {
+          transform: translate(0);
+        }
+        20% {
+          transform: translate(-2px, 2px);
+        }
+        40% {
+          transform: translate(-2px, -2px);
+        }
+        60% {
+          transform: translate(2px, 2px);
+        }
+        80% {
+          transform: translate(2px, -2px);
+        }
+        100% {
+          transform: translate(0);
+        }
+      }
+
+      .pulse-glow {
+        box-shadow: 0 0 15px rgba(255, 59, 48, 0.5);
+        animation: pulse-glow-anim 2s infinite alternate;
+      }
+
+      @keyframes pulse-glow-anim {
+        from {
+          box-shadow: 0 0 15px rgba(255, 59, 48, 0.18);
+        }
+        to {
+          box-shadow: 0 0 25px rgba(255, 59, 48, 0.8);
+        }
+      }
+
+      .pulse-glow-red {
+        box-shadow: 0 0 15px rgba(255, 59, 48, 0.55);
+        animation: pulse-glow-red-anim 2s infinite alternate;
+      }
+
+      @keyframes pulse-glow-red-anim {
+        from {
+          box-shadow: 0 0 15px rgba(255, 58, 48, 0.2);
+        }
+        to {
+          box-shadow: 0 0 25px rgba(255, 58, 48, 0.85);
+        }
+      }
+
+      .glass-panel {
+        background: rgba(18, 10, 10, 0.84);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 70, 70, 0.22);
+      }
+
+      .glass-panel-red {
+        background: rgba(22, 9, 9, 0.88);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 70, 70, 0.28);
+      }
+
+      .radar-spinner {
+        border: 4px solid rgba(255, 70, 70, 0.1);
+        border-top: 4px solid rgba(255, 70, 70, 0.82);
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      #outbreak-map {
+        height: 500px;
+        width: 100%;
+      }
+
+      .leaflet-container {
+        background:
+          radial-gradient(circle at 50% 50%, rgba(255, 59, 48, 0.14), transparent 44%),
+          linear-gradient(180deg, #120707 0%, #050303 100%);
+        filter: saturate(1.06) brightness(0.9);
+      }
+
+      .leaflet-control-zoom a {
+        background: #1a0d0d;
+        color: #fff5f3;
+        border-bottom-color: rgba(255, 70, 70, 0.22);
+      }
+
+      .leaflet-popup-content-wrapper,
+      .leaflet-popup-tip {
+        background: #170b0b;
+        color: #fff5f3;
+      }
+
+      .chat-shell {
+        background: linear-gradient(180deg, rgba(21, 8, 8, 0.1), rgba(12, 5, 5, 0.1));
+        border: 1px solid rgba(255, 70, 70, 0.35);
+        box-shadow: 0 0 34px rgba(255, 59, 48, 0.24), inset 0 0 30px rgba(255, 59, 48, 0.04);
+      }
+
+      .chat-grid-overlay {
+        background-image:
+          linear-gradient(rgba(255, 70, 70, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 70, 70, 0.08) 1px, transparent 1px);
+        background-size: 14px 14px;
+      }
+
+      .chat-msg-user {
+        border: 1px solid rgba(255, 70, 70, 0.34);
+        background: rgba(120, 20, 18, 0.26);
+        backdrop-filter: blur(4px);
+      }
+
+      .chat-msg-assistant {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(17, 9, 9, 0.82);
+        backdrop-filter: blur(4px);
+      }
+
+      .chat-msg-thinking {
+        border: 1px solid rgba(255, 80, 80, 0.26);
+        background: rgba(28, 12, 12, 0.82);
+      }
+
+      .chat-status-live {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+      }
+
+      .chat-status-live::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 9999px;
+        background: #ff3b30;
+        box-shadow: 0 0 12px rgba(255, 59, 48, 0.65);
+        animation: chat-status-pulse 1.4s ease-in-out infinite;
+      }
+
+      .thinking-dots {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .thinking-dots span {
+        width: 7px;
+        height: 7px;
+        border-radius: 9999px;
+        background: #ff7b73;
+        opacity: 0.45;
+        animation: chat-thinking-bounce 1s ease-in-out infinite;
+      }
+
+      .thinking-dots span:nth-child(2) {
+        animation-delay: 0.14s;
+      }
+
+      .thinking-dots span:nth-child(3) {
+        animation-delay: 0.28s;
+      }
+
+      @keyframes chat-thinking-bounce {
+        0%,
+        80%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.35;
+        }
+        40% {
+          transform: translateY(-4px);
+          opacity: 1;
+        }
+      }
+
+      @keyframes chat-status-pulse {
+        0%,
+        100% {
+          transform: scale(0.8);
+          opacity: 0.7;
+        }
+        50% {
+          transform: scale(1.18);
+          opacity: 1;
+        }
+      }
+    </style>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-primary": "#6a1512",
+              tertiary: "#fff3f1",
+              "primary-container": "#ff3b30",
+              "on-tertiary-container": "#44110f",
+              "surface-container-lowest": "#050303",
+              "surface-container": "#120808",
+              background: "#090505",
+              "on-surface-variant": "#c5b1ae",
+              "surface-container-highest": "#2d1717",
+              "inverse-on-surface": "#311919",
+              "secondary-fixed": "#ffe1dd",
+              "primary-fixed": "#ff7b73",
+              "on-error": "#2c0200",
+              "on-secondary-fixed": "#3a0907",
+              "surface-container-low": "#0d0606",
+              "surface-bright": "#372020",
+              "tertiary-fixed-dim": "#ffb3ad",
+              "tertiary-container": "#481211",
+              secondary: "#ffb4ab",
+              "on-tertiary": "#250605",
+              error: "#ff4e45",
+              "on-background": "#fff5f3",
+              "secondary-container": "#6f1814",
+              "on-primary-container": "#210504",
+              "primary-fixed-dim": "#ff5c53",
+              "inverse-surface": "#fff5f3",
+              "tertiary-fixed": "#ffd2cd",
+              "on-error-container": "#ffd9d6",
+              "surface-dim": "#080404",
+              "surface-tint": "#ff3b30",
+              "secondary-fixed-dim": "#ff9186",
+              "on-tertiary-fixed": "#260707",
+              primary: "#ffffff",
+              "on-tertiary-fixed-variant": "#6b1916",
+              "on-secondary-fixed-variant": "#8d211c",
+              "on-secondary-container": "#ffd9d6",
+              surface: "#090505",
+              "on-surface": "#fff5f3",
+              "on-primary-fixed": "#180202",
+              "error-container": "#7e1f1b",
+              "surface-variant": "#1a0f0f",
+              "on-primary": "#120000",
+              "surface-container-high": "#180c0c",
+              "outline-variant": "#4b2b2b",
+              "on-primary-fixed-variant": "#4d0d0a",
+              "on-secondary": "#300606",
+              outline: "#8a6767"
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px"
+            },
+            spacing: {
+              gutter: "24px",
+              "container-max": "1440px",
+              unit: "4px",
+              margin: "40px"
+            },
+            fontFamily: {
+              "terminal-sm": ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+              "terminal-md": ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+              "headline-lg": ["Impact", "Haettenschweiler", "Arial Narrow Bold", "sans-serif"],
+              "headline-xl": ["Impact", "Haettenschweiler", "Arial Narrow Bold", "sans-serif"],
+              body: ["ui-sans-serif", "system-ui", "-apple-system", "sans-serif"]
+            },
+            fontSize: {
+              "terminal-sm": [
+                "14px",
+                {
+                  lineHeight: "1.4",
+                  letterSpacing: "0.1em",
+                  fontWeight: "400"
+                }
+              ],
+              "terminal-md": [
+                "18px",
+                {
+                  lineHeight: "1.5",
+                  letterSpacing: "0.05em",
+                  fontWeight: "500"
+                }
+              ],
+              "headline-lg": [
+                "48px",
+                {
+                  lineHeight: "1.1",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "800"
+                }
+              ],
+              "headline-xl": [
+                "72px",
+                {
+                  lineHeight: "1.0",
+                  letterSpacing: "-0.05em",
+                  fontWeight: "900"
+                }
+              ],
+              body: [
+                "16px",
+                {
+                  lineHeight: "1.6",
+                  fontWeight: "400"
+                }
+              ]
+            }
+          }
+        }
+      };
+    </script>
+  </head>
+  <body
+    class="bg-background text-on-surface font-body overflow-x-hidden selection:bg-primary-container selection:text-background"
+  >
+    <nav
+      class="fixed top-0 z-50 w-full border-b border-primary/30 bg-surface/85 backdrop-blur-xl shadow-[0_0_15px_rgba(42,229,0,0.2)]"
+    >
+      <div class="mx-auto flex w-full max-w-container-max items-center justify-between px-margin py-4">
+        <div class="font-headline-lg text-headline-lg font-black italic tracking-tighter text-primary">
+          HANTA AGENT
+        </div>
+        <div class="hidden items-center gap-gutter font-terminal-md text-terminal-md uppercase tracking-widest md:flex">
+          <a
+            class="border-b-2 border-primary pb-1 text-primary transition-all duration-300 active:scale-95"
+            href="#map"
+            >OUTBREAK_MAP</a
+          >
+          <a
+            class="px-2 text-on-surface-variant transition-all duration-300 hover:bg-primary/10 hover:text-primary active:scale-95"
+            href="#about"
+            >BIO_DATA</a
+          >
+          <a
+            class="px-2 text-on-surface-variant transition-all duration-300 hover:bg-primary/10 hover:text-primary active:scale-95"
+            href="#tokenomics"
+            >PROTOCOL_4</a
+          >
+          <a
+            class="px-2 text-on-surface-variant transition-all duration-300 hover:bg-primary/10 hover:text-primary active:scale-95"
+            href="#social"
+            >ARCHIVES</a
+          >
+        </div>
+        <a
+          class="hidden bg-error px-4 py-2 font-terminal-sm text-terminal-sm uppercase text-background transition-colors hover:bg-error-container hover:text-on-error-container md:block"
+          href="https://dexscreener.com/base/0xcomingsoon"
+        >
+          BUY HANTA
+        </a>
+        <button
+          id="mobile-menu-button"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+          aria-label="Open menu"
+          class="text-primary md:hidden"
+          type="button"
+        >
+          <span id="mobile-menu-icon" aria-hidden="true">≡</span>
+        </button>
+      </div>
+      <div
+        id="mobile-menu"
+        class="hidden border-t border-primary/20 bg-surface-container-high px-margin pb-4 pt-3 md:hidden"
+      >
+        <div class="flex flex-col gap-3 font-terminal-md text-terminal-md uppercase tracking-widest">
+          <a class="mobile-nav-link text-primary" href="#map">OUTBREAK_MAP</a>
+          <a class="mobile-nav-link text-on-surface-variant" href="#about">BIO_DATA</a>
+          <a class="mobile-nav-link text-on-surface-variant" href="#tokenomics">PROTOCOL_4</a>
+          <a class="mobile-nav-link text-on-surface-variant" href="#social">ARCHIVES</a>
+          <a class="mobile-nav-link bg-error px-4 py-3 text-center text-background" href="https://dexscreener.com/base/0xcomingsoon"
+            >BUY HANTA</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <main class="w-full pt-[100px]">
+      <section
+        class="relative flex min-h-[921px] flex-col items-center justify-center overflow-hidden px-margin py-20"
+        id="hero"
+      >
+        <div
+          class="absolute inset-0 z-0 bg-cover bg-center opacity-60 mix-blend-screen"
+          style="
+            background-image: url('./assets/images/screen.png');
+          "
+        ></div>
+        <div
+          class="absolute inset-0 z-0 bg-gradient-to-t from-background via-background/80 to-transparent mix-blend-screen"
+        ></div>
+        <div class="relative z-10 flex w-full max-w-container-max flex-col items-center gap-8 text-center">
+          <div
+            class="mb-4 inline-block animate-pulse border border-error bg-error/10 px-4 py-1 font-terminal-md text-terminal-md uppercase text-error"
+          >
+            <span class="mr-2 align-middle text-[20px]" aria-hidden="true">!</span>
+            CONTAINMENT BREACH DETECTED
+          </div>
+          <h1
+            class="glitch-hover font-headline-xl text-headline-xl uppercase leading-tight tracking-tighter text-primary drop-shadow-[0_0_24px_rgba(255,255,255,0.18)]"
+          >
+            THE OUTBREAK<br />HAS STARTED
+          </h1>
+          <h2
+            class="mt-4 font-headline-lg text-headline-lg uppercase leading-tight tracking-tighter text-error drop-shadow-[0_0_10px_rgba(255,59,48,0.22)]"
+          >
+            HANTA AGENT IS SPREADING ON BASE
+          </h2>
+          <section class="chat-shell relative mt-8 w-full max-w-[96rem] overflow-hidden rounded-xl p-8 text-left" aria-label="Hantavirus assistant">
+            <div class="chat-grid-overlay pointer-events-none absolute inset-0 opacity-20"></div>
+            <div class="relative mb-5 flex items-center justify-between gap-3 border-b border-primary/25 pb-4">
+              <div class="font-terminal-md text-[22px] uppercase tracking-[0.2em] text-primary/90">
+                HANTAVIRUS INTEL BOT
+              </div>
+              <div id="chat-status" class="chat-status-live font-terminal-sm text-[14px] uppercase tracking-[0.18em] text-primary/70">
+                offline
+              </div>
+            </div>
+            <div
+              id="chat-messages"
+              class="relative h-[520px] space-y-4 overflow-y-auto rounded-lg border border-primary/20 bg-background/50 p-6 md:h-[680px]"
+              aria-live="polite"
+            >
+              <article class="chat-msg-assistant rounded-lg p-4">
+                <div class="font-terminal-sm text-[13px] uppercase tracking-[0.14em] text-primary">assistant</div>
+                <p class="mt-2 text-[17px] leading-relaxed text-on-surface">
+                  Ask me anything about hantavirus symptoms, spread, prevention, treatment, vaccines,
+                  transmission, or outbreak history.
+                </p>
+              </article>
+            </div>
+            <form id="chat-form" class="relative mt-5 space-y-2">
+              <div class="flex gap-2">
+              <input
+                id="chat-input"
+                type="text"
+                required
+                placeholder="Type a hantavirus question..."
+                class="min-w-0 flex-1 rounded-lg border border-primary/30 bg-background px-5 py-4 text-[17px] text-on-surface outline-none ring-0 placeholder:text-[15px] placeholder:text-on-surface-variant/70 focus:border-primary"
+              />
+              <button
+                id="chat-send-button"
+                type="submit"
+                class="pulse-glow rounded-lg border border-primary-container bg-primary-container px-7 py-4 font-terminal-sm text-[16px] uppercase tracking-[0.18em] text-background transition-colors hover:bg-primary-fixed"
+              >
+                Send
+              </button>
+              </div>
+            </form>
+          </section>
+          <div class="mt-8 flex flex-col gap-6 sm:flex-row">
+            <a
+              href="#buy"
+              class="pulse-glow border-2 border-transparent bg-primary-container px-8 py-4 font-terminal-md text-terminal-md uppercase tracking-widest text-background transition-colors hover:bg-primary-fixed"
+            >
+              BUY HANTA AGENT
+            </a>
+            <a
+              href="https://dexscreener.com/base/0xcomingsoon"
+              target="_blank"
+              rel="noreferrer"
+              class="glass-panel glitch-hover px-8 py-4 font-terminal-md text-terminal-md uppercase tracking-widest text-primary transition-colors hover:bg-primary/10"
+            >
+              VIEW CHART
+            </a>
+          </div>
+          <div
+            class="glass-panel mt-12 flex w-full max-w-2xl items-center gap-4 border-l-4 border-l-primary-container p-4"
+          >
+            <span class="text-primary-container" aria-hidden="true">&gt;_</span>
+            <div class="min-w-0 flex-grow text-left">
+              <div class="font-terminal-sm text-terminal-sm uppercase text-primary/70">
+                CONTRACT_ADDRESS
+              </div>
+              <input
+                id="contract-address"
+                class="mt-2 w-full border-none bg-transparent p-0 font-terminal-md text-terminal-md text-primary outline-none focus:ring-0"
+                readonly
+                type="text"
+                value="0xcomingsoon"
+              />
+            </div>
+            <button
+              id="copy-button"
+              aria-label="Copy contract address"
+              onclick="window.copyContractAddress && window.copyContractAddress(); return false;"
+              class="text-on-surface-variant transition-colors hover:text-primary"
+              type="button"
+            >
+              <span aria-hidden="true">⧉</span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="absolute bottom-0 flex w-full items-center overflow-hidden border-y border-primary/30 bg-surface-container-high py-2"
+        >
+          <div class="hazard-stripes mr-4 h-8 w-8 flex-shrink-0"></div>
+          <div
+            class="flex whitespace-nowrap gap-8 font-terminal-sm text-terminal-sm uppercase tracking-widest text-primary"
+          >
+            <span>BREAKING NEWS: LIVE OUTBREAK FEED HAS GONE CRITICAL</span>
+            <span>///</span>
+            <span>ARGENTINA AND SWITZERLAND NOW FLASHING RED ON SURVEILLANCE</span>
+            <span>///</span>
+            <span>THE HANTA AGENT STRAIN IS VERIFIED AND LOOSE ON ETHEREUM</span>
+            <span>///</span>
+            <span>NO ANTIDOTE. NO SAFE ROOM. NO EXIT ROUTE.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="relative bg-background px-margin py-24" id="about">
+        <div class="mx-auto max-w-container-max">
+          <div class="mb-16 text-center">
+            <h2
+              class="glitch-hover mb-4 font-headline-lg text-headline-lg uppercase tracking-tighter text-primary"
+            >
+              PROTOCOL: VIRAL
+            </h2>
+            <p
+              class="mx-auto max-w-3xl font-terminal-md text-terminal-md uppercase text-on-surface-variant"
+            >
+              HANTA AGENT is not just a token. It is a live outbreak spectacle wired to
+              fear, headlines, rumor cycles, and speculative mania in one infected
+              broadcast.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div
+              class="glass-panel group border-t-4 border-primary-container p-6 transition-colors hover:bg-surface-container-high"
+            >
+              <span
+                class="mb-4 text-4xl text-primary-container transition-transform group-hover:scale-110"
+                aria-hidden="true"
+                >✺</span
+              >
+              <h3 class="mb-2 text-xl font-bold uppercase text-primary">VIRAL</h3>
+              <p class="font-terminal-sm text-on-surface-variant">
+                Engineered for maximum memetic spread. One mention becomes a swarm.
+              </p>
+            </div>
+            <div
+              class="glass-panel group border-t-4 border-error p-6 transition-colors hover:bg-surface-container-high"
+            >
+              <span
+                class="mb-4 text-4xl text-error transition-transform group-hover:scale-110"
+                aria-hidden="true"
+                >◎</span
+              >
+              <h3 class="mb-2 text-xl font-bold uppercase text-error">CONTAGIOUS</h3>
+              <p class="font-terminal-sm text-on-surface-variant">
+                Peer-to-peer panic transmission. Every transaction becomes an exposure event.
+              </p>
+            </div>
+            <div
+              class="glass-panel group border-t-4 border-primary-container p-6 transition-colors hover:bg-surface-container-high"
+            >
+              <span
+                class="mb-4 text-4xl text-primary-container transition-transform group-hover:scale-110"
+                aria-hidden="true"
+                >⬢</span
+              >
+              <h3 class="mb-2 text-xl font-bold uppercase text-primary">UNSTOPPABLE</h3>
+              <p class="font-terminal-sm text-on-surface-variant">
+                Decentralized mutation engine. Once it is loose, containment fails.
+              </p>
+            </div>
+            <div
+              class="glass-panel group border-t-4 border-error p-6 transition-colors hover:bg-surface-container-high"
+            >
+              <span
+                class="mb-4 text-4xl text-error transition-transform group-hover:scale-110"
+                aria-hidden="true"
+                >◌</span
+              >
+              <h3 class="mb-2 text-xl font-bold uppercase text-error">LIVE DATA</h3>
+              <p class="font-terminal-sm text-on-surface-variant">
+                Real outbreak JSON fused into the interface so every number lands harder.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="relative overflow-hidden border-y border-primary/20 bg-surface-container-lowest px-margin py-24"
+        id="map"
+      >
+        <div
+          class="pointer-events-none absolute inset-0 bg-cover bg-center opacity-20 mix-blend-screen"
+          style="background-image: url('./assets/images/screen.png')"
+        ></div>
+        <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/70 via-background/78 to-background/88"></div>
+        <div class="mx-auto max-w-container-max">
+          <div class="relative border border-error/60 bg-[#0f1110]/75 p-2 shadow-[0_0_80px_rgba(255,70,70,0.08)]">
+            <div class="absolute left-0 top-0 h-6 w-6 border-l-2 border-t-2 border-primary"></div>
+            <div class="absolute bottom-0 right-0 h-6 w-6 border-b-2 border-r-2 border-primary"></div>
+            <div class="inline-flex bg-error/80 px-5 py-2 font-terminal-sm text-terminal-sm uppercase tracking-[0.35em] text-on-error">
+              LIVE INTEL FEED
+            </div>
+
+            <div class="grid gap-8 px-4 pb-4 pt-8 lg:grid-cols-[0.95fr_1.3fr]">
+              <div class="border border-primary/30 bg-black/45 p-3">
+                <div
+                  class="h-[320px] bg-cover bg-center"
+                  style="background-image: url('./assets/images/screen.png')"
+                ></div>
+                <div class="pt-3 font-terminal-sm text-terminal-sm uppercase tracking-[0.2em] text-primary/80">
+                  SCAN_REF: ETH_001
+                </div>
+              </div>
+
+              <div class="flex flex-col justify-center">
+                <h2
+                  class="glitch-hover mb-4 font-headline-lg text-headline-lg uppercase tracking-tighter text-primary"
+                >
+                  GLOBAL SURVEILLANCE
+                </h2>
+                <p class="mb-6 font-terminal-md text-terminal-md leading-relaxed text-on-surface">
+                  <span class="mr-3 font-black uppercase tracking-[0.18em] text-error">BREAKING:</span>
+                  <span id="intel-headline">
+                    The outbreak signal is mutating across borders as the live feed
+                    continues to flag new red zones in real time.
+                  </span>
+                </p>
+                <div class="border-l-4 border-primary bg-[#11131a]/65 px-6 py-5">
+                  <p
+                    id="intel-quote"
+                    class="font-terminal-md text-terminal-md leading-relaxed text-on-surface-variant"
+                  >
+                    >> Emergency monitors confirm the latest bulletin remains active
+                    as surveillance rooms continue tracking the spread.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-10 grid gap-8 lg:grid-cols-[0.85fr_1.45fr]">
+            <div class="space-y-4">
+              <div class="glass-panel-red border-l-4 border-error p-4">
+                <div class="font-terminal-sm uppercase text-error/70">CONFIRMED CASES</div>
+                <div
+                  id="infected-total"
+                  class="animate-pulse font-terminal-md text-2xl text-primary"
+                >
+                  -
+                </div>
+              </div>
+              <div class="glass-panel border-l-4 border-primary p-4">
+                <div class="font-terminal-sm uppercase text-primary/70">DEATH TOLL</div>
+                <div id="death-total" class="font-terminal-md text-2xl text-primary">-</div>
+              </div>
+              <div class="glass-panel border-l-4 border-primary p-4">
+                <div class="font-terminal-sm uppercase text-primary/70">LATEST EMERGENCY BULLETIN</div>
+                <div id="latest-update" class="font-terminal-md text-2xl text-primary">-</div>
+              </div>
+              <div class="glass-panel-red border-l-4 border-error bg-error/10 p-4">
+                <div class="font-terminal-sm uppercase text-error/70">PANIC LEVEL</div>
+                <div class="font-terminal-md text-2xl font-bold text-primary">CRITICAL</div>
+              </div>
+              <div class="glass-panel p-4">
+                <div class="mb-3 font-terminal-sm uppercase text-primary/70">RED ZONES</div>
+                <div id="country-list" class="space-y-3"></div>
+              </div>
+            </div>
+
+            <div class="glass-panel relative flex h-[560px] w-full items-center justify-center overflow-hidden">
+              <div class="absolute inset-0 bg-primary/5"></div>
+              <div class="absolute inset-0 opacity-20">
+                <div class="hazard-stripes h-full w-full mix-blend-overlay opacity-20"></div>
+              </div>
+              <div id="outbreak-map" class="relative z-10 h-full w-full"></div>
+              <div class="pointer-events-none absolute left-6 top-6 z-[500] font-terminal-sm uppercase tracking-widest text-primary/70">
+                SATELLITE PANIC FEED LIVE
+              </div>
+              <div
+                id="source-status"
+                class="pointer-events-none absolute bottom-6 left-6 z-[500] max-w-md font-terminal-sm uppercase tracking-widest text-primary/60"
+              >
+                TRACKING RED ZONES IN REAL TIME
+              </div>
+              <div class="absolute inset-0 z-[450] overflow-hidden border border-primary/20 bg-black/35">
+                <iframe
+                  title="Live Dexscreener chart"
+                  src="https://dexscreener.com/base/0xcomingsoon?embed=1&theme=dark"
+                  class="h-full w-full border-0"
+                  loading="lazy"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="relative overflow-hidden bg-background px-margin py-24" id="tokenomics">
+        <div class="relative z-10 mx-auto max-w-container-max">
+          <div class="mb-16 text-center">
+            <h2
+              class="glitch-hover mb-4 font-headline-lg text-headline-lg uppercase tracking-tighter text-primary"
+            >
+              GENOMIC DATA
+            </h2>
+            <p class="font-terminal-md text-terminal-md uppercase text-on-surface-variant">
+              The financial anatomy of the outbreak
+            </p>
+          </div>
+          <div class="flex flex-col items-center justify-center gap-16 md:flex-row">
+            <div class="relative flex h-64 w-64 items-center justify-center">
+              <div class="radar-spinner absolute"></div>
+              <div
+                class="pulse-glow z-10 flex h-48 w-48 items-center justify-center rounded-full border border-primary/30 bg-primary/5 backdrop-blur-sm"
+              >
+                <span class="text-5xl text-primary" aria-hidden="true">◎</span>
+              </div>
+            </div>
+            <div class="w-full max-w-md space-y-6">
+              <div class="flex items-center justify-between border-b border-primary/20 pb-2">
+                <span class="font-terminal-sm uppercase text-on-surface-variant">SUPPLY</span>
+                <span class="font-terminal-md font-bold text-primary">1,000,000,000 HANTA AGENT</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-primary/20 pb-2">
+                <span class="font-terminal-sm uppercase text-on-surface-variant">TAX</span>
+                <span class="font-terminal-md font-bold text-primary">0%</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-primary/20 pb-2">
+                <span class="font-terminal-sm uppercase text-on-surface-variant">LIQUIDITY</span>
+                <span class="font-terminal-md font-bold text-primary">SEALED</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-primary/20 pb-2">
+                <span class="font-terminal-sm uppercase text-on-surface-variant">GOVERNANCE</span>
+                <span class="font-terminal-md font-bold text-primary">CROWD CONTROLLED</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-primary/20 pb-2">
+                <span class="font-terminal-sm uppercase text-on-surface-variant">TEAM TOKENS</span>
+                <span class="font-terminal-md font-bold text-error">ZERO RESCUE UNITS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="relative border-t border-primary/20 bg-surface-container-high px-margin py-24"
+        id="buy"
+      >
+        <div class="mx-auto max-w-container-max">
+          <div class="mb-16 text-center">
+            <h2
+              class="glitch-hover mb-4 font-headline-lg text-headline-lg uppercase tracking-tighter text-primary"
+            >
+              TRANSMISSION PATHWAY
+            </h2>
+            <p class="font-terminal-md text-terminal-md uppercase text-on-surface-variant">
+              The four-step contamination route
+            </p>
+          </div>
+          <div class="relative grid grid-cols-1 gap-8 md:grid-cols-4">
+            <div
+              class="absolute left-0 top-1/2 z-0 hidden h-1 w-full -translate-y-1/2 bg-primary/20 md:block"
+            ></div>
+            <div class="glass-panel group relative z-10 p-6 text-center transition-colors hover:border-primary">
+              <div
+                class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border-2 border-primary bg-background font-headline-md text-2xl text-primary transition-colors group-hover:bg-primary group-hover:text-background"
+              >
+                1
+              </div>
+              <h3 class="mb-2 font-terminal-md font-bold uppercase text-primary">Create Wallet</h3>
+              <p class="text-sm font-terminal-sm text-on-surface-variant">
+                Open a wallet before the outbreak gets any louder.
+              </p>
+            </div>
+            <div class="glass-panel group relative z-10 p-6 text-center transition-colors hover:border-primary">
+              <div
+                class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border-2 border-primary bg-background font-headline-md text-2xl text-primary transition-colors group-hover:bg-primary group-hover:text-background"
+              >
+                2
+              </div>
+              <h3 class="mb-2 font-terminal-md font-bold uppercase text-primary">Buy ETH</h3>
+              <p class="text-sm font-terminal-sm text-on-surface-variant">
+                Load ETH to finance the exposure event.
+              </p>
+            </div>
+            <div class="glass-panel group relative z-10 p-6 text-center transition-colors hover:border-primary">
+              <div
+                class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border-2 border-primary bg-background font-headline-md text-2xl text-primary transition-colors group-hover:bg-primary group-hover:text-background"
+              >
+                3
+              </div>
+              <h3 class="mb-2 font-terminal-md font-bold uppercase text-primary">
+                Connect to Uniswap
+              </h3>
+              <p class="text-sm font-terminal-sm text-on-surface-variant">
+                Enter Uniswap and connect the wallet to the live incident.
+              </p>
+            </div>
+            <div
+              class="glass-panel-red group relative z-10 p-6 text-center transition-colors hover:border-error"
+            >
+              <div
+                class="pulse-glow-red mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border-2 border-error bg-background font-headline-md text-2xl text-error transition-colors group-hover:bg-error group-hover:text-background"
+              >
+                4
+              </div>
+              <h3 class="mb-2 font-terminal-md font-bold uppercase text-error">
+                Infect Your Wallet With HANTA AGENT
+              </h3>
+              <p class="text-sm font-terminal-sm text-on-surface-variant">
+                Swap ETH for HANTA AGENT and let the contamination finish its work.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="relative bg-background px-margin py-24" id="social">
+        <div class="mx-auto max-w-container-max text-center">
+          <h2
+            class="glitch-hover mb-8 font-headline-lg text-headline-lg uppercase tracking-tighter text-primary drop-shadow-[0_0_15px_rgba(151,255,89,0.25)]"
+          >
+            JOIN THE INFECTED
+          </h2>
+          <div class="mb-12 flex flex-wrap justify-center gap-6">
+            <a
+              class="glass-panel flex items-center gap-3 px-8 py-4 text-primary transition-colors hover:bg-primary/10"
+              href="https://t.me/hantaviruseth"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span aria-hidden="true">◌</span>
+              <span class="font-terminal-md uppercase">Telegram</span>
+            </a>
+            <a
+              class="glass-panel flex items-center gap-3 px-8 py-4 text-primary transition-colors hover:bg-primary/10"
+              href="https://x.com/i/communities/2030777747245809970"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span aria-hidden="true">𝕏</span>
+              <span class="font-terminal-md uppercase">X / Twitter</span>
+            </a>
+            <a
+              class="glass-panel flex items-center gap-3 px-8 py-4 text-primary transition-colors hover:bg-primary/10"
+              href="https://dexscreener.com/base/0xcomingsoon"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span aria-hidden="true">↗</span>
+              <span class="font-terminal-md uppercase">Dexscreener</span>
+            </a>
+            <a
+              class="glass-panel flex items-center gap-3 px-8 py-4 text-primary transition-colors hover:bg-primary/10"
+              href="https://basescan.io/token/0xcomingsoon"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span aria-hidden="true">◎</span>
+              <span class="font-terminal-md uppercase">Etherscan</span>
+            </a>
+          </div>
+          <div class="glass-panel inline-block border-2 border-error/50 p-6">
+            <div class="mb-2 font-terminal-sm uppercase text-on-surface-variant">
+              GLOBAL INFECTION COUNTER
+            </div>
+            <div id="community-counter" class="animate-pulse font-headline-xl text-error">
+              14,208
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer
+      class="relative w-full overflow-hidden border-t-4 border-error bg-surface-container-highest shadow-[0_-10px_30px_rgba(255,0,0,0.1)]"
+    >
+      <div class="hazard-stripes-red h-2 w-full"></div>
+      <div
+        class="relative z-10 mx-auto flex max-w-container-max flex-col items-center justify-between gap-gutter px-margin py-12 md:flex-row"
+      >
+        <div
+          class="flex items-center gap-2 font-headline-lg text-headline-lg font-black italic tracking-tighter text-error"
+        >
+          <span class="text-4xl" aria-hidden="true">!</span>
+          CLASSIFIED DOCUMENT
+        </div>
+        <div
+          class="max-w-xl text-center font-terminal-sm text-terminal-sm uppercase text-on-surface-variant md:text-left"
+        >
+          WARNING: HANTA AGENT IS A MEMECOIN PROTOCOL FOR ENTERTAINMENT AND SPECULATIVE
+          TRADING. THIS IS PANIC THEATER, NOT MEDICAL GUIDANCE. DO YOUR OWN
+          RESEARCH BEFORE EXPOSURE.
+        </div>
+        <div class="flex gap-6 font-terminal-sm text-terminal-sm uppercase">
+          <a class="animate-pulse text-error underline" href="#">LIQUIDITY_LOCK</a>
+          <a class="text-on-surface-variant transition-colors hover:text-error hover:underline" href="#"
+            >DISCLAIMER</a
+          >
+        </div>
+      </div>
+      <div class="pointer-events-none absolute inset-0 opacity-10">
+        <div class="hazard-stripes h-full w-full mix-blend-overlay opacity-10"></div>
+      </div>
+    </footer>
+
+    <script src="./vendor/leaflet.js"></script>
+    <script>
+      window.__ENV_PROMISE = (async () => {
+        try {
+          const response = await fetch("./.env", { cache: "no-store" });
+          if (!response.ok) {
+            window.__ENV__ = {};
+            return window.__ENV__;
+          }
+
+          const rawEnv = await response.text();
+          const parsedEnv = {};
+          rawEnv.split(/\r?\n/).forEach((line) => {
+            const trimmedLine = line.trim();
+            if (!trimmedLine || trimmedLine.startsWith("#")) {
+              return;
+            }
+
+            const separatorIndex = trimmedLine.indexOf("=");
+            if (separatorIndex < 1) {
+              return;
+            }
+
+            const key = trimmedLine.slice(0, separatorIndex).trim();
+            const value = trimmedLine
+              .slice(separatorIndex + 1)
+              .trim()
+              .replace(/^['"]|['"]$/g, "");
+            if (key) {
+              parsedEnv[key] = value;
+            }
+          });
+
+          window.__ENV__ = parsedEnv;
+          if (parsedEnv.OPENAI_API_KEY && !window.OPENAI_API_KEY) {
+            window.OPENAI_API_KEY = parsedEnv.OPENAI_API_KEY;
+          }
+          if (parsedEnv.CHATGPT_API_KEY && !window.CHATGPT_API_KEY) {
+            window.CHATGPT_API_KEY = parsedEnv.CHATGPT_API_KEY;
+          }
+          if (parsedEnv.OPENAI_MODEL && !window.OPENAI_MODEL) {
+            window.OPENAI_MODEL = parsedEnv.OPENAI_MODEL;
+          }
+          if (parsedEnv.CHATGPT_MODEL && !window.CHATGPT_MODEL) {
+            window.CHATGPT_MODEL = parsedEnv.CHATGPT_MODEL;
+          }
+          return parsedEnv;
+        } catch {
+          window.__ENV__ = {};
+          return window.__ENV__;
+        }
+      })();
+    </script>
+    <script src="./app.js"></script>
+  </body>
+</html>
